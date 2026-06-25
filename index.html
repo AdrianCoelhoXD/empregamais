@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>EmpregaMais Cidadão</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <link rel="stylesheet" href="CSS/style.css">
+
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+</head>
+
+<body id="body" class="bg-slate-100">
+
+<!-- Barra acessibilidade -->
+
+<div class="bg-slate-900 text-white p-3 sticky top-0 z-50">
+
+  <div class="max-w-7xl mx-auto flex flex-wrap gap-2 justify-center">
+
+    <button onclick="aumentarFonte()" class="btn-acessibilidade">
+      A+
+    </button>
+
+    <button onclick="diminuirFonte()" class="btn-acessibilidade">
+      A-
+    </button>
+
+    <button onclick="alternarContraste()" class="btn-acessibilidade">
+      Alto Contraste
+    </button>
+
+    <button onclick="lerPagina()" class="btn-acessibilidade">
+      Ler Página
+    </button>
+
+  </div>
+
+</div>
+
+<header class="bg-gradient-to-r from-blue-900 via-blue-800 to-indigo-900 text-white py-8 shadow-xl">
+
+    <div class="max-w-6xl mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-6">
+
+        <div class="flex items-center gap-4">
+
+            <div class="bg-gradient-to-br from-emerald-400 to-teal-500 text-slate-900 p-4 rounded-2xl font-black text-3xl shadow-lg">
+                EM+
+            </div>
+
+            <div>
+
+                <h1 class="text-4xl font-black">
+                    EmpregaMais
+                    <span class="text-emerald-400">
+                        Cidadão
+                    </span>
+                </h1>
+
+                <p class="text-blue-200">
+                    Prefeitura Municipal • Inclusão para todos
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</header>
+<section class="max-w-6xl mx-auto px-4 py-10">
+
+    <div class="card p-8">
+
+        <h2 class="text-4xl font-black mb-4">
+            Bem-vindo ao EmpregaMais
+        </h2>
+
+        <p class="text-lg text-slate-600 mb-6">
+            Plataforma acessível para encontrar vagas,
+            cursos gratuitos e oportunidades inclusivas.
+        </p>
+
+        <div class="flex flex-wrap gap-4">
+
+            <button
+            onclick="mostrarTela('vagas')"
+            class="btn-primary">
+
+                Procurar Vagas
+
+            </button>
+
+            <button
+            onclick="mostrarTela('perfil')"
+            class="bg-blue-600 text-white px-6 py-4 rounded-xl">
+
+                Criar Perfil
+
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+<section class="max-w-6xl mx-auto py-8 px-4">
+
+  <div class="grid md:grid-cols-3 gap-6">
+
+<div class="card stat-card">
+<h3>500+</h3>
+<p>Vagas Ativas</p>
+</div>
+
+<div class="card stat-card">
+<h3>120+</h3>
+<p>Empresas Parceiras</p>
+</div>
+
+<div class="card stat-card">
+<h3>1000+</h3>
+<p>Cidadãos Empregados</p>
+</div>
+
+</div>
+  </div>
+
+</section>
+<section class="max-w-6xl mx-auto px-4 py-10">
+
+<h2 class="text-3xl font-black mb-6">
+♿ Recursos de Acessibilidade
+</h2>
+
+<div class="grid md:grid-cols-4 gap-6">
+
+<div class="card p-6">
+🔊 Leitor de Voz
+</div>
+
+<div class="card p-6">
+🤟 Libras (VLibras)
+</div>
+
+<div class="card p-6">
+🎤 Comandos por Voz
+</div>
+
+<div class="card p-6">
+🔍 Fonte Ampliada
+</div>
+
+</div>
+
+</section>
+<nav class="max-w-6xl mx-auto px-4">
+
+  <div class="flex flex-wrap gap-3 justify-center">
+
+    <button onclick="mostrarTela('vagas')" class="btn-menu">
+      Vagas
+    </button>
+
+    <button onclick="mostrarTela('perfil')" class="btn-menu">
+      Perfil
+    </button>
+
+    <button onclick="mostrarTela('cursos')" class="btn-menu">
+      Cursos
+    </button>
+
+    <button onclick="mostrarTela('notificacoes')" class="btn-menu">
+      Notificações
+    </button>
+
+  </div>
+
+</nav>
+
+<!-- VAGAS -->
+
+<section id="vagas" class="tela">
+
+  <div class="container-padrao">
+
+    <h2 class="titulo-secao">
+      Procurar Vagas
+    </h2>
+
+    <div class="grid md:grid-cols-4 gap-4 mb-6">
+
+      <select id="bairroFiltro" class="campo">
+        <option>Todos</option>
+      </select>
+
+      <select id="areaFiltro" class="campo">
+        <option>Todas</option>
+      </select>
+
+      <button onclick="filtrarVagas()" class="btn-primario">
+        Buscar
+      </button>
+
+    </div>
+
+    <div id="listaVagas"></div>
+
+  </div>
+
+</section>
+
+<!-- PERFIL -->
+
+<section id="perfil" class="tela hidden">
+
+  <div class="container-padrao">
+
+    <h2 class="titulo-secao">
+      Meu Perfil
+    </h2>
+
+    <form id="formPerfil">
+
+      <input class="campo" id="nome" placeholder="Nome Completo">
+
+      <input class="campo" id="cpf" placeholder="CPF">
+
+      <input class="campo" id="telefone" placeholder="Telefone">
+
+      <input class="campo" id="email" placeholder="Email">
+
+      <select id="deficiencia" class="campo">
+
+        <option>Nenhuma</option>
+        <option>Visual</option>
+        <option>Auditiva</option>
+        <option>Motora</option>
+        <option>Cognitiva</option>
+
+      </select>
+
+      <textarea id="experiencia" class="campo" rows="5"></textarea>
+
+      <button
+      type="button"
+      onclick="gravarVoz()"
+      class="btn-primario">
+
+      🎤 Falar Experiência
+
+      </button>
+
+      <button
+      type="submit"
+      class="btn-sucesso">
+
+      Salvar Perfil
+
+      </button>
+
+    </form>
+
+  </div>
+
+</section>
+
+<!-- CURSOS -->
+
+<section id="cursos" class="tela hidden">
+
+  <div class="container-padrao">
+
+    <h2 class="titulo-secao">
+      Cursos Gratuitos
+    </h2>
+
+    <div id="listaCursos"></div>
+
+  </div>
+
+</section>
+
+<!-- NOTIFICAÇÕES -->
+
+<section id="notificacoes" class="tela hidden">
+
+  <div class="container-padrao">
+
+    <h2 class="titulo-secao">
+      Notificações
+    </h2>
+
+    <div id="listaNotificacoes"></div>
+
+  </div>
+
+</section>
+<!-- VLibras -->
+<div vw class="enabled">
+  <div vw-access-button class="active"></div>
+  <div vw-plugin-wrapper>
+    <div class="vw-plugin-top-wrapper"></div>
+  </div>
+</div>
+
+<script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+
+<script>
+  window.addEventListener("load", function () {
+    new window.VLibras.Widget("https://vlibras.gov.br/app");
+  });
+</script>
+
+<footer class="bg-slate-900 text-white text-center py-8 mt-10">
+
+  EmpregaMais Cidadão © 2026
+
+</footer>
+
+<script src="js/dados.js"></script>
+<script src="js/acessibilidade.js"></script>
+<script src="js/vagas.js"></script>
+<script src="js/perfil.js"></script>
+<script src="js/notificacoes.js"></script>
+<script src="js/cursos.js"></script>
+<script src="js/app.js"></script>
+
+</body>
+</html>

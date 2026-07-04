@@ -3,332 +3,519 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="EmpregaMais - Plataforma acessível de emprego para todos. Encontre vagas inclusivas, cursos gratuitos e oportunidades para pessoas com deficiência.">
+  <meta name="theme-color" content="#1e3a8a">
+  <title>EmpregaMais Cidadão - Vagas Inclusivas e Acessíveis</title>
 
-  <title>EmpregaMais Cidadão</title>
+  <!-- Google Fonts - Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 
-  <script src="https://cdn.tailwindcss.com"></script>
-
+  <!-- Stylesheet -->
   <link rel="stylesheet" href="CSS/style.css">
-
-  <script src="https://unpkg.com/lucide@latest"></script>
-
 </head>
+<body id="body">
 
-<body id="body" class="bg-slate-100">
+  <!-- ==================== -->
+  <!-- 1. Skip Navigation   -->
+  <!-- ==================== -->
+  <a href="#main-content" class="skip-link">Pular para o conteúdo principal</a>
 
-<!-- Barra acessibilidade -->
+  <!-- ==================== -->
+  <!-- 2. Toast Container   -->
+  <!-- ==================== -->
+  <div id="toast-container" class="toast-container" role="alert" aria-live="assertive" aria-atomic="true"></div>
 
-<div class="bg-slate-900 text-white p-3 sticky top-0 z-50">
-
-  <div class="max-w-7xl mx-auto flex flex-wrap gap-2 justify-center">
-
-    <button onclick="aumentarFonte()" class="btn-acessibilidade">
-      A+
-    </button>
-
-    <button onclick="diminuirFonte()" class="btn-acessibilidade">
-      A-
-    </button>
-
-    <button onclick="alternarContraste()" class="btn-acessibilidade">
-      Alto Contraste
-    </button>
-
-    <button onclick="lerPagina()" class="btn-acessibilidade">
-      Ler Página
-    </button>
-
+  <!-- ========================= -->
+  <!-- 3. Onboarding Modal       -->
+  <!-- ========================= -->
+  <div id="modal-onboarding" class="modal-overlay" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="modal">
+      <div class="modal-header">
+        <div style="font-size:3rem;" aria-hidden="true">♿</div>
+        <h2 id="modal-title">Bem-vindo ao EmpregaMais!</h2>
+        <p style="color:var(--slate-500);margin-top:0.5rem;">Plataforma acessível de emprego para todos</p>
+      </div>
+      <div class="modal-body">
+        <p style="margin-bottom:1rem;color:var(--text-secondary);">Deseja ativar recursos de acessibilidade? Você pode personalizar sua experiência a qualquer momento pelo botão ♿ no canto inferior esquerdo.</p>
+        <div style="display:flex;flex-direction:column;gap:0.75rem;">
+          <button class="btn btn-outline btn-block" onclick="ativarRecurso('high-contrast')" type="button">
+            🌗 Ativar Alto Contraste
+          </button>
+          <button class="btn btn-outline btn-block" onclick="ativarRecurso('large-font')" type="button">
+            🔍 Aumentar Tamanho da Fonte
+          </button>
+          <button class="btn btn-outline btn-block" onclick="ativarRecurso('screen-reader')" type="button">
+            🔊 Ativar Leitor de Tela
+          </button>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="fecharOnboarding()" type="button">
+          Continuar sem alterações
+        </button>
+        <button class="btn btn-primary" onclick="fecharOnboarding()" type="button">
+          Pronto!
+        </button>
+      </div>
+    </div>
   </div>
 
-</div>
+  <!-- ==================== -->
+  <!-- 4. Main Header       -->
+  <!-- ==================== -->
+  <header class="main-header" role="banner">
+    <div class="container">
+      <div class="header-content">
+        <div class="logo">
+          <div class="logo-icon" aria-hidden="true">EM+</div>
+          <div class="logo-text">
+            <h1>EmpregaMais <span style="color:var(--emerald-400)">Cidadão</span></h1>
+            <p>Inclusão e oportunidade para todos</p>
+          </div>
+        </div>
+        <nav class="header-nav" aria-label="Menu principal">
+          <button class="nav-btn nav-btn--active" onclick="mostrarTela('home')" data-section="home" type="button">
+            🏠 Início
+          </button>
+          <button class="nav-btn" onclick="mostrarTela('vagas')" data-section="vagas" type="button">
+            💼 Vagas
+          </button>
+          <button class="nav-btn" onclick="mostrarTela('perfil')" data-section="perfil" type="button">
+            👤 Perfil
+          </button>
+          <button class="nav-btn" onclick="mostrarTela('cursos')" data-section="cursos" type="button">
+            🎓 Cursos
+          </button>
+          <button class="nav-btn" onclick="mostrarTela('notificacoes')" data-section="notificacoes" type="button">
+            🔔 Notificações
+          </button>
+        </nav>
+      </div>
+    </div>
+  </header>
 
-<header class="bg-gradient-to-r from-blue-900 via-blue-800 to-indigo-900 text-white py-8 shadow-xl">
+  <!-- ==================== -->
+  <!-- 5. Main Content      -->
+  <!-- ==================== -->
+  <main id="main-content" role="main">
 
-    <div class="max-w-6xl mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-6">
+    <!-- ========================= -->
+    <!-- 5.1 Home Section          -->
+    <!-- ========================= -->
+    <section id="home" class="section" aria-labelledby="home-title">
+      <div class="container">
 
-        <div class="flex items-center gap-4">
-
-            <div class="bg-gradient-to-br from-emerald-400 to-teal-500 text-slate-900 p-4 rounded-2xl font-black text-3xl shadow-lg">
-                EM+
+        <!-- Hero -->
+        <div class="hero">
+          <div class="hero-card">
+            <h2 class="hero-title" id="home-title">
+              Encontre a vaga ideal com <span>acessibilidade total</span>
+            </h2>
+            <p class="hero-description">
+              Plataforma inclusiva da Prefeitura Municipal para conectar cidadãos a oportunidades de emprego, cursos gratuitos e capacitação profissional. Acessível para todos.
+            </p>
+            <div class="hero-actions">
+              <button class="btn btn-primary btn-lg" onclick="mostrarTela('vagas')" type="button">
+                💼 Procurar Vagas
+              </button>
+              <button class="btn btn-secondary btn-lg" onclick="mostrarTela('perfil')" type="button">
+                👤 Criar Meu Perfil
+              </button>
             </div>
-
-            <div>
-
-                <h1 class="text-4xl font-black">
-                    EmpregaMais
-                    <span class="text-emerald-400">
-                        Cidadão
-                    </span>
-                </h1>
-
-                <p class="text-blue-200">
-                    Prefeitura Municipal • Inclusão para todos
-                </p>
-
-            </div>
-
+          </div>
         </div>
 
-    </div>
-
-</header>
-<section class="max-w-6xl mx-auto px-4 py-10">
-
-    <div class="card p-8">
-
-        <h2 class="text-4xl font-black mb-4">
-            Bem-vindo ao EmpregaMais
-        </h2>
-
-        <p class="text-lg text-slate-600 mb-6">
-            Plataforma acessível para encontrar vagas,
-            cursos gratuitos e oportunidades inclusivas.
-        </p>
-
-        <div class="flex flex-wrap gap-4">
-
-            <button
-            onclick="mostrarTela('vagas')"
-            class="btn-primary">
-
-                Procurar Vagas
-
-            </button>
-
-            <button
-            onclick="mostrarTela('perfil')"
-            class="bg-blue-600 text-white px-6 py-4 rounded-xl">
-
-                Criar Perfil
-
-            </button>
-
+        <!-- Stats -->
+        <div class="stats-section">
+          <div class="grid grid-3">
+            <div class="stat-card">
+              <div class="stat-icon" aria-hidden="true">💼</div>
+              <h3 aria-label="Mais de 500 vagas ativas">500+</h3>
+              <p>Vagas Ativas</p>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon" aria-hidden="true">🏢</div>
+              <h3 aria-label="Mais de 120 empresas parceiras">120+</h3>
+              <p>Empresas Parceiras</p>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon" aria-hidden="true">✅</div>
+              <h3 aria-label="Mais de 1000 cidadãos empregados">1000+</h3>
+              <p>Cidadãos Empregados</p>
+            </div>
+          </div>
         </div>
 
+        <!-- Accessibility Features -->
+        <div class="features-section">
+          <h2 class="section-title">♿ Recursos de Acessibilidade</h2>
+          <div class="grid grid-4">
+            <div class="feature-card" tabindex="0">
+              <div class="feature-icon" aria-hidden="true">🔊</div>
+              <h3>Leitor de Voz</h3>
+              <p>Ouça o conteúdo de qualquer seção ou vaga com um clique.</p>
+            </div>
+            <div class="feature-card" tabindex="0">
+              <div class="feature-icon" aria-hidden="true">🤟</div>
+              <h3>Libras (VLibras)</h3>
+              <p>Tradução automática para Língua Brasileira de Sinais.</p>
+            </div>
+            <div class="feature-card" tabindex="0">
+              <div class="feature-icon" aria-hidden="true">🎤</div>
+              <h3>Comandos por Voz</h3>
+              <p>Preencha formulários usando apenas sua voz.</p>
+            </div>
+            <div class="feature-card" tabindex="0">
+              <div class="feature-icon" aria-hidden="true">🔍</div>
+              <h3>Personalização Visual</h3>
+              <p>Ajuste fonte, contraste, espaçamento e cores.</p>
+            </div>
+            <div class="feature-card" tabindex="0">
+              <div class="feature-icon" aria-hidden="true">⌨️</div>
+              <h3>Navegação por Teclado</h3>
+              <p>Acesse tudo sem mouse usando Tab e Enter.</p>
+            </div>
+            <div class="feature-card" tabindex="0">
+              <div class="feature-icon" aria-hidden="true">🧠</div>
+              <h3>Layout Simplificado</h3>
+              <p>Interface limpa e direta, fácil de entender.</p>
+            </div>
+            <div class="feature-card" tabindex="0">
+              <div class="feature-icon" aria-hidden="true">📱</div>
+              <h3>Responsivo</h3>
+              <p>Funciona perfeitamente em celular, tablet e computador.</p>
+            </div>
+            <div class="feature-card" tabindex="0">
+              <div class="feature-icon" aria-hidden="true">🎨</div>
+              <h3>Temas para Daltonismo</h3>
+              <p>Paletas adaptadas para protanopia, deuteranopia e tritanopia.</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ========================= -->
+    <!-- 5.2 Vagas Section         -->
+    <!-- ========================= -->
+    <section id="vagas" class="section section--hidden" aria-labelledby="vagas-title">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title" id="vagas-title">💼 Procurar Vagas</h2>
+        </div>
+
+        <!-- Search Bar -->
+        <div class="search-bar">
+          <div class="search-input-wrapper">
+            <span class="search-icon" aria-hidden="true">🔍</span>
+            <input type="search" id="search-vagas" class="form-input" placeholder="Buscar por cargo, empresa ou palavra-chave..." aria-label="Buscar vagas">
+          </div>
+        </div>
+
+        <!-- Filters -->
+        <div class="filter-group" role="group" aria-label="Filtros de vagas">
+          <div class="form-group" style="flex:1;min-width:150px;margin-bottom:0;">
+            <label for="filtro-bairro" class="sr-only">Bairro</label>
+            <select id="filtro-bairro" class="form-select" aria-label="Filtrar por bairro">
+              <option value="">📍 Todos os bairros</option>
+            </select>
+          </div>
+          <div class="form-group" style="flex:1;min-width:150px;margin-bottom:0;">
+            <label for="filtro-area" class="sr-only">Área</label>
+            <select id="filtro-area" class="form-select" aria-label="Filtrar por área">
+              <option value="">💼 Todas as áreas</option>
+            </select>
+          </div>
+          <div class="form-group" style="flex:1;min-width:150px;margin-bottom:0;">
+            <label for="filtro-tipo" class="sr-only">Tipo de contrato</label>
+            <select id="filtro-tipo" class="form-select" aria-label="Filtrar por tipo de contrato">
+              <option value="">📋 Todos os tipos</option>
+              <option value="CLT">CLT</option>
+              <option value="PJ">PJ</option>
+              <option value="Estágio">Estágio</option>
+              <option value="Temporário">Temporário</option>
+            </select>
+          </div>
+          <label class="btn btn-outline" style="cursor:pointer;gap:0.5rem;">
+            <input type="checkbox" id="filtro-pcd" aria-label="Mostrar apenas vagas PCD">
+            ♿ Apenas vagas PCD
+          </label>
+          <button class="btn btn-primary" onclick="filtrarVagas()" type="button">
+            Buscar
+          </button>
+        </div>
+
+        <!-- Results Count -->
+        <div class="filter-results">
+          <span id="vagas-count" aria-live="polite">Carregando vagas...</span>
+          <button class="btn btn-sm btn-outline" onclick="limparFiltros()" type="button">
+            Limpar filtros
+          </button>
+        </div>
+
+        <!-- Vagas List -->
+        <div id="lista-vagas" aria-live="polite" role="list">
+          <!-- Rendered by JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================= -->
+    <!-- 5.3 Perfil Section        -->
+    <!-- ========================= -->
+    <section id="perfil" class="section section--hidden" aria-labelledby="perfil-title">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title" id="perfil-title">👤 Meu Perfil</h2>
+          <p style="color:var(--text-secondary);">Preencha seus dados para se candidatar às vagas. Todos os campos marcados com * são obrigatórios.</p>
+        </div>
+
+        <div class="card">
+          <div class="card-body">
+            <form id="form-perfil" novalidate>
+              <div class="grid grid-2">
+                <div class="form-group">
+                  <label for="campo-nome" class="form-label">Nome Completo <span class="required" aria-label="obrigatório">*</span></label>
+                  <input type="text" id="campo-nome" class="form-input" placeholder="Digite seu nome completo" required aria-required="true">
+                </div>
+                <div class="form-group">
+                  <label for="campo-cpf" class="form-label">CPF <span class="required" aria-label="obrigatório">*</span></label>
+                  <input type="text" id="campo-cpf" class="form-input" placeholder="000.000.000-00" required aria-required="true" inputmode="numeric">
+                </div>
+                <div class="form-group">
+                  <label for="campo-telefone" class="form-label">Telefone <span class="required" aria-label="obrigatório">*</span></label>
+                  <input type="tel" id="campo-telefone" class="form-input" placeholder="(00) 00000-0000" required aria-required="true">
+                </div>
+                <div class="form-group">
+                  <label for="campo-email" class="form-label">Email <span class="required" aria-label="obrigatório">*</span></label>
+                  <input type="email" id="campo-email" class="form-input" placeholder="seu@email.com" required aria-required="true">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="campo-deficiencia" class="form-label">Tipo de Deficiência</label>
+                <select id="campo-deficiencia" class="form-select">
+                  <option value="Nenhuma">Nenhuma</option>
+                  <option value="Visual">Visual</option>
+                  <option value="Auditiva">Auditiva</option>
+                  <option value="Motora">Motora / Física</option>
+                  <option value="Cognitiva">Cognitiva / Intelectual</option>
+                  <option value="Múltipla">Múltipla</option>
+                  <option value="TEA">Transtorno do Espectro Autista (TEA)</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="campo-experiencia" class="form-label">Experiência Profissional</label>
+                <textarea id="campo-experiencia" class="form-textarea" placeholder="Descreva suas experiências profissionais, habilidades e qualificações..." rows="5"></textarea>
+                <div style="margin-top:0.5rem;">
+                  <button type="button" class="btn btn-outline btn-sm" onclick="gravarVoz()" aria-label="Gravar experiência por voz">
+                    🎤 Falar Experiência
+                  </button>
+                  <span id="gravacao-status" class="sr-only" aria-live="polite"></span>
+                </div>
+              </div>
+
+              <div style="display:flex;gap:1rem;flex-wrap:wrap;margin-top:1rem;">
+                <button type="submit" class="btn btn-primary btn-lg" style="flex:1;min-width:200px;">
+                  💾 Salvar Perfil
+                </button>
+                <button type="button" class="btn btn-outline btn-lg" onclick="carregarPerfil()" style="flex:1;min-width:200px;">
+                  📂 Carregar Dados Salvos
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <div class="section-header" style="margin-top: 2rem;">
+          <h3 class="section-title">💼 Minhas Candidaturas</h3>
+        </div>
+        <div id="lista-candidaturas" class="grid grid-2" aria-live="polite">
+          <p style="color:var(--text-secondary);">Você ainda não se candidatou a nenhuma vaga.</p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ========================= -->
+    <!-- 5.4 Cursos Section        -->
+    <!-- ========================= -->
+    <section id="cursos" class="section section--hidden" aria-labelledby="cursos-title">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title" id="cursos-title">🎓 Cursos Gratuitos</h2>
+          <p style="color:var(--text-secondary);">Cursos oferecidos pela Prefeitura para capacitação profissional.</p>
+        </div>
+        <div id="lista-cursos" aria-live="polite" role="list">
+          <!-- Rendered by JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================= -->
+    <!-- 5.5 Notificações Section  -->
+    <!-- ========================= -->
+    <section id="notificacoes" class="section section--hidden" aria-labelledby="notificacoes-title">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title" id="notificacoes-title">🔔 Notificações</h2>
+        </div>
+        <div id="lista-notificacoes" aria-live="polite" role="list">
+          <!-- Rendered by JS -->
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ================================== -->
+  <!-- 7. Accessibility Widget (Floating) -->
+  <!-- ================================== -->
+  <div class="a11y-widget" id="accessibility-widget">
+    <div class="a11y-panel" id="a11y-panel" aria-hidden="true" aria-label="Painel de acessibilidade" role="region">
+      <div class="a11y-panel-header">
+        <h3>♿ Acessibilidade</h3>
+        <button class="btn btn-sm btn-outline" onclick="toggleAccessibilityPanel()" aria-label="Fechar painel de acessibilidade" type="button">✕</button>
+      </div>
+      <div class="a11y-panel-body">
+
+        <!-- Font Size -->
+        <div class="a11y-section">
+          <div class="a11y-section-title">Tamanho da Fonte</div>
+          <div class="a11y-font-controls">
+            <button class="a11y-font-btn" onclick="diminuirFonte()" aria-label="Diminuir fonte" type="button">A-</button>
+            <span class="a11y-font-display" id="font-size-display" aria-live="polite">100%</span>
+            <button class="a11y-font-btn" onclick="aumentarFonte()" aria-label="Aumentar fonte" type="button">A+</button>
+            <button class="a11y-font-btn" onclick="resetarFonte()" aria-label="Resetar fonte" type="button">↺</button>
+          </div>
+        </div>
+
+        <!-- Themes -->
+        <div class="a11y-section">
+          <div class="a11y-section-title">Tema Visual</div>
+          <button class="a11y-btn" onclick="alternarTema('high-contrast')" data-theme="high-contrast" type="button">
+            🌗 Alto Contraste
+          </button>
+          <button class="a11y-btn" onclick="alternarTema('protanopia')" data-theme="protanopia" type="button">
+            🎨 Protanopia
+          </button>
+          <button class="a11y-btn" onclick="alternarTema('deuteranopia')" data-theme="deuteranopia" type="button">
+            🎨 Deuteranopia
+          </button>
+          <button class="a11y-btn" onclick="alternarTema('tritanopia')" data-theme="tritanopia" type="button">
+            🎨 Tritanopia
+          </button>
+        </div>
+
+        <!-- Reading -->
+        <div class="a11y-section">
+          <div class="a11y-section-title">Leitura</div>
+          <button class="a11y-btn" onclick="lerPagina()" type="button">
+            🔊 Ler Página em Voz Alta
+          </button>
+          <button class="a11y-btn" onclick="pararLeitura()" type="button">
+            ⏹️ Parar Leitura
+          </button>
+          <button class="a11y-btn" onclick="document.querySelector('[vw-access-button]').click()" type="button">
+            🤟 Abrir Tradutor de Libras
+          </button>
+        </div>
+
+        <!-- Extra Options -->
+        <div class="a11y-section">
+          <div class="a11y-section-title">Mais Opções</div>
+          <button class="a11y-btn" onclick="alternarTema('large-spacing')" data-theme="large-spacing" type="button">
+            ↔️ Espaçamento Ampliado
+          </button>
+          <button class="a11y-btn" onclick="alternarTema('large-cursor')" data-theme="large-cursor" type="button">
+            🖱️ Cursor Grande
+          </button>
+          <button class="a11y-btn" onclick="alternarTema('reduced-motion')" data-theme="reduced-motion" type="button">
+            🚫 Desativar Animações
+          </button>
+          <button class="a11y-btn" onclick="resetarAcessibilidade()" type="button" style="color:var(--error);">
+            ↺ Resetar Tudo
+          </button>
+        </div>
+
+      </div>
     </div>
-
-</section>
-<section class="max-w-6xl mx-auto py-8 px-4">
-
-  <div class="grid md:grid-cols-3 gap-6">
-
-<div class="card stat-card">
-<h3>500+</h3>
-<p>Vagas Ativas</p>
-</div>
-
-<div class="card stat-card">
-<h3>120+</h3>
-<p>Empresas Parceiras</p>
-</div>
-
-<div class="card stat-card">
-<h3>1000+</h3>
-<p>Cidadãos Empregados</p>
-</div>
-
-</div>
+    <button class="a11y-toggle" id="accessibility-toggle" onclick="toggleAccessibilityPanel()" aria-label="Abrir painel de acessibilidade" aria-expanded="false" type="button">
+      ♿
+      <span class="pulse-ring" aria-hidden="true"></span>
+    </button>
   </div>
 
-</section>
-<section class="max-w-6xl mx-auto px-4 py-10">
+  <!-- ========================= -->
+  <!-- 8. VLibras Widget         -->
+  <!-- ========================= -->
+  <div vw class="enabled">
+    <div vw-access-button class="active"></div>
+    <div vw-plugin-wrapper>
+      <div class="vw-plugin-top-wrapper"></div>
+    </div>
+  </div>
+  <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+  <script>
+    window.onload = function() {
+      setTimeout(function() {
+        if(window.VLibras) {
+          new window.VLibras.Widget('https://vlibras.gov.br/app');
+        }
+      }, 1000);
+    };
+  </script>
 
-<h2 class="text-3xl font-black mb-6">
-♿ Recursos de Acessibilidade
-</h2>
+  <!-- ==================== -->
+  <!-- 9. Footer            -->
+  <!-- ==================== -->
+  <footer class="main-footer" role="contentinfo">
+    <div class="container">
+      <p>EmpregaMais Cidadão © 2026 • Prefeitura Municipal</p>
+      <p style="margin-top:0.5rem;font-size:0.75rem;opacity:0.6;">Plataforma desenvolvida com foco em acessibilidade e inclusão social</p>
+    </div>
+  </footer>
 
-<div class="grid md:grid-cols-4 gap-6">
-
-<div class="card p-6">
-🔊 Leitor de Voz
-</div>
-
-<div class="card p-6">
-🤟 Libras (VLibras)
-</div>
-
-<div class="card p-6">
-🎤 Comandos por Voz
-</div>
-
-<div class="card p-6">
-🔍 Fonte Ampliada
-</div>
-
-</div>
-
-</section>
-<nav class="max-w-6xl mx-auto px-4">
-
-  <div class="flex flex-wrap gap-3 justify-center">
-
-    <button onclick="mostrarTela('vagas')" class="btn-menu">
+  <!-- =============================== -->
+  <!-- 10. Mobile Bottom Navigation    -->
+  <!-- =============================== -->
+  <nav class="mobile-nav" id="mobile-nav" aria-label="Menu de navegação móvel">
+    <button class="mobile-nav-item mobile-nav-item--active" onclick="mostrarTela('home')" data-section="home" aria-label="Início" type="button">
+      <span class="mobile-nav-icon" aria-hidden="true">🏠</span>
+      Início
+    </button>
+    <button class="mobile-nav-item" onclick="mostrarTela('vagas')" data-section="vagas" aria-label="Vagas" type="button">
+      <span class="mobile-nav-icon" aria-hidden="true">💼</span>
       Vagas
     </button>
-
-    <button onclick="mostrarTela('perfil')" class="btn-menu">
+    <button class="mobile-nav-item" onclick="mostrarTela('perfil')" data-section="perfil" aria-label="Perfil" type="button">
+      <span class="mobile-nav-icon" aria-hidden="true">👤</span>
       Perfil
     </button>
-
-    <button onclick="mostrarTela('cursos')" class="btn-menu">
+    <button class="mobile-nav-item" onclick="mostrarTela('cursos')" data-section="cursos" aria-label="Cursos" type="button">
+      <span class="mobile-nav-icon" aria-hidden="true">🎓</span>
       Cursos
     </button>
-
-    <button onclick="mostrarTela('notificacoes')" class="btn-menu">
-      Notificações
+    <button class="mobile-nav-item" onclick="mostrarTela('notificacoes')" data-section="notificacoes" aria-label="Notificações" type="button">
+      <span class="mobile-nav-icon" aria-hidden="true">🔔</span>
+      Alertas
     </button>
+  </nav>
 
-  </div>
-
-</nav>
-
-<!-- VAGAS -->
-
-<section id="vagas" class="tela">
-
-  <div class="container-padrao">
-
-    <h2 class="titulo-secao">
-      Procurar Vagas
-    </h2>
-
-    <div class="grid md:grid-cols-4 gap-4 mb-6">
-
-      <select id="bairroFiltro" class="campo">
-        <option>Todos</option>
-      </select>
-
-      <select id="areaFiltro" class="campo">
-        <option>Todas</option>
-      </select>
-
-      <button onclick="filtrarVagas()" class="btn-primario">
-        Buscar
-      </button>
-
-    </div>
-
-    <div id="listaVagas"></div>
-
-  </div>
-
-</section>
-
-<!-- PERFIL -->
-
-<section id="perfil" class="tela hidden">
-
-  <div class="container-padrao">
-
-    <h2 class="titulo-secao">
-      Meu Perfil
-    </h2>
-
-    <form id="formPerfil">
-
-      <input class="campo" id="nome" placeholder="Nome Completo">
-
-      <input class="campo" id="cpf" placeholder="CPF">
-
-      <input class="campo" id="telefone" placeholder="Telefone">
-
-      <input class="campo" id="email" placeholder="Email">
-
-      <select id="deficiencia" class="campo">
-
-        <option>Nenhuma</option>
-        <option>Visual</option>
-        <option>Auditiva</option>
-        <option>Motora</option>
-        <option>Cognitiva</option>
-
-      </select>
-
-      <textarea id="experiencia" class="campo" rows="5"></textarea>
-
-      <button
-      type="button"
-      onclick="gravarVoz()"
-      class="btn-primario">
-
-      🎤 Falar Experiência
-
-      </button>
-
-      <button
-      type="submit"
-      class="btn-sucesso">
-
-      Salvar Perfil
-
-      </button>
-
-    </form>
-
-  </div>
-
-</section>
-
-<!-- CURSOS -->
-
-<section id="cursos" class="tela hidden">
-
-  <div class="container-padrao">
-
-    <h2 class="titulo-secao">
-      Cursos Gratuitos
-    </h2>
-
-    <div id="listaCursos"></div>
-
-  </div>
-
-</section>
-
-<!-- NOTIFICAÇÕES -->
-
-<section id="notificacoes" class="tela hidden">
-
-  <div class="container-padrao">
-
-    <h2 class="titulo-secao">
-      Notificações
-    </h2>
-
-    <div id="listaNotificacoes"></div>
-
-  </div>
-
-</section>
-<!-- VLibras -->
-<div vw class="enabled">
-  <div vw-access-button class="active"></div>
-  <div vw-plugin-wrapper>''
-    <div class="vw-plugin-top-wrapper"></div>
-  </div>
-</div>
-
-<script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
-
-<script>
-  window.addEventListener("load", function () {
-    new window.VLibras.Widget("https://vlibras.gov.br/app");
-  });
-</script>
-
-<footer class="bg-slate-900 text-white text-center py-8 mt-10">
-
-  EmpregaMais Cidadão © 2026
-
-</footer>
-
-<script src="js/dados.js"></script>
-<script src="js/acessibilidade.js"></script>
-<script src="js/vagas.js"></script>
-<script src="js/perfil.js"></script>
-<script src="js/notificacoes.js"></script>
-<script src="js/cursos.js"></script>
-<script src="js/app.js"></script>
+  <!-- =============================== -->
+  <!-- 11. Scripts (load order matters)-->
+  <!-- =============================== -->
+  <script src="JS/dados.js"></script>
+  <script src="JS/acessibilidade.js"></script>
+  <script src="JS/vagas.js"></script>
+  <script src="JS/perfil.js"></script>
+  <script src="JS/notificacoes.js"></script>
+  <script src="JS/cursos.js"></script>
+  <script src="JS/app.js"></script>
 
 </body>
 </html>
